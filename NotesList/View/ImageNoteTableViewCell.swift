@@ -61,7 +61,7 @@ final class ImageNoteTableViewCell: UITableViewCell {
         
         attachmentView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview().inset(5)
-            make.height.equalTo(100)
+            make.height.equalTo(150)
         }
         
         titleLabel.snp.makeConstraints { make in
