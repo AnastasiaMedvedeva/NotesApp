@@ -66,8 +66,9 @@ extension NotesListViewController {
 extension NotesListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let noteViewController = NoteViewController()
+        let viewModel = NoteViewModel(note: note)
         navigationController?.pushViewController(noteViewController, animated: true)
         guard let note = viewModel?.section[indexPath.section].items[indexPath.row] as? Note else { return }
-                noteViewController.set(note: note)
+        noteViewController.viewModel = viewModel
     }
 }

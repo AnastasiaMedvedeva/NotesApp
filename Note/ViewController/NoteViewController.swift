@@ -34,6 +34,10 @@ final class NoteViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.prefersLargeTitles = false
     }
+    
+    // MARK: - Properties
+    var viewModel: NoteViewModelProtocol
+    
     // MARK: - Private methods
     @objc
     private func hideKeyboard() {
@@ -78,11 +82,12 @@ final class NoteViewController: UIViewController {
         setToolbarItems([trashButton], animated: true)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveAction))
     }
-    // MARK: - Methods
-    func set(note: Note) {
-        textView.text = note.title + " " + note.description
-        guard let imageData = note.image,
-              let image = UIImage(data: imageData) else { return }
-        attachmentView.image = image
+    private func configure() {
+        textView.text = viewModel.text
+//        guard let imageData = note.image,
+//              let image = UIImage(data: imageData) else { return }
+//        attachmentView.image = image
     }
+    // MARK: - Methods
+  
 }
