@@ -10,7 +10,7 @@ import Foundation
 struct Note: TableViewItemProtocol {
     let title: String
     let date: Date
-    let description: String
-    let imageUrl: String?
+    let description: String?
+    let imageUrl: URL?
     let image: Data? = nil
 }

@@ -72,8 +72,9 @@ final class ImageNoteTableViewCell: UITableViewCell {
     // MARK: - Methods
     func set(note: Note) {
         titleLabel.text = note.title
-        guard let imageData = note.image,
-              let image = UIImage(data: imageData) else { return }
-        attachmentView.image = image
+        
+//        guard let imageData = note.image,
+//              let image = UIImage(data: imageData) else { return }
+//        attachmentView.image = image
     }
 }

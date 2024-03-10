@@ -39,7 +39,6 @@ final class SimpleNoteTableViewCell: UITableViewCell {
     private func setupUI() {
         addSubview(containerView)
         containerView.addSubview(titleLabel)
-        
         setupConstraints()
     }
     
@@ -56,5 +55,6 @@ final class SimpleNoteTableViewCell: UITableViewCell {
     // MARK: - Methods
     func set(note: Note) {
         titleLabel.text = note.title
+        
     }
 }

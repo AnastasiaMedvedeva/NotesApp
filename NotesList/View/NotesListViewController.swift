@@ -8,7 +8,6 @@
 import UIKit
 
 class NotesListViewController: UITableViewController {
-    
 // MARK: - Properties
     var viewModel: NotesListViewModelProtocol?
 // MARK: - Life cycle

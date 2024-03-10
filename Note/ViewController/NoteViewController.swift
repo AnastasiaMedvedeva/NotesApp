@@ -36,7 +36,7 @@ final class NoteViewController: UIViewController {
     }
     
     // MARK: - Properties
-    var viewModel: NoteViewModelProtocol
+    var viewModel: NoteViewModelProtocol?
     
     // MARK: - Private methods
     @objc
@@ -45,7 +45,7 @@ final class NoteViewController: UIViewController {
     }
     @objc
     private func deleteAction() {
-        
+        viewModel?.delete()
     }
     @objc
     private func saveAction() {
@@ -83,7 +83,7 @@ final class NoteViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveAction))
     }
     private func configure() {
-        textView.text = viewModel.text
+        textView.text = viewModel?.text
 //        guard let imageData = note.image,
 //              let image = UIImage(data: imageData) else { return }
 //        attachmentView.image = image

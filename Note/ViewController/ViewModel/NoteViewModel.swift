@@ -16,7 +16,7 @@ protocol NoteViewModelProtocol {
 final class NoteViewModel: NoteViewModelProtocol {
     let note: Note?
     var text: String {
-        let text = ((note?.title ?? "") + "\n\n" + note?.description ?? "")
+        let text = ((note?.title ?? "") + "\n\n" + (note?.description ?? "") )
         return text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
@@ -25,8 +25,9 @@ final class NoteViewModel: NoteViewModelProtocol {
     }
     // MARK: - Methods
     func save(with text: String) {
-        let data = note?.date ?? Date()
-        let note = Note(title: title, description: description, imageUrl: nil)
+        let date = note?.date ?? Date()
+        let (title, description) = createTitleAndDescription(from: text)
+        let note = Note(title: title, date: date, description: description ?? "", imageUrl: nil)
         NotePersistent.save(note)
     }
     func delete() {
@@ -34,9 +35,11 @@ final class NoteViewModel: NoteViewModelProtocol {
         NotePersistent.delete(note)
     }
     // MARK: - Private methods
-    private func createTitleAndDescription(from text: String) -> (String, String) {
+    func createTitleAndDescription(from text: String) -> (String, String?) {
         var description = text
-        
-        
+        guard let index = description.firstIndex(where: { $0 == "." || $0 == "!" || $0 == "?" || $0 == "\n"}) else { return (text, nil)}
+            let title = String(description[...index])
+            description.removeSubrange(...index)
+            return (title, description)
     }
 }
