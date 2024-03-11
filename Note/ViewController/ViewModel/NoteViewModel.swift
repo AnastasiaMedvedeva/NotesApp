@@ -16,7 +16,7 @@ protocol NoteViewModelProtocol {
 final class NoteViewModel: NoteViewModelProtocol {
     let note: Note?
     var text: String {
-        let text = ((note?.title ?? "") + "\n\n" + (note?.description ?? "") )
+        let text = ((note?.title ?? "") + "\n\n" + (note?.description?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "") )
         return text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     

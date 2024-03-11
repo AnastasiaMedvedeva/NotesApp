@@ -16,6 +16,10 @@ class NotesListViewController: UITableViewController {
         setupTableViewCell()
         title = "Notes"
         setupToolBar()
+        registerObserver()
+        viewModel?.reloadTable = { [weak self] in
+            self?.tableView.reloadTable()
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -36,7 +40,19 @@ class NotesListViewController: UITableViewController {
     @objc
     private func addAction() {
         let noteViewController = NoteViewController()
+        let viewModel = NoteViewModel(note: note)
+        noteViewController.viewModel = viewModel
         navigationController?.pushViewController(noteViewController, animated: true)
+    }
+    private func registerObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateData),
+                                               name: NSNotification.Name("Update"),
+                                               object: nil)
+    }
+    @objc
+    private func updateData() {
+        viewModel?.getNotes()
     }
 }
     // MARK: - UITableViewDataSource
@@ -59,6 +75,9 @@ extension NotesListViewController {
             return cell
         }
         return UITableViewCell()
+    }
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        viewModel?.section[section].title
     }
 }
 // MARK: - UITableViewDelegate

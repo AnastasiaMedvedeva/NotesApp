@@ -9,11 +9,18 @@ import Foundation
 
 protocol NotesListViewModelProtocol {
     var section: [TableViewSection] { get }
+    func getNotes()
+    var reloadTable: (() -> Void)? { get set }
 }
 
 final class NotesListViewModel: NotesListViewModelProtocol {
     // MARK: - Properties
-    private(set) var section: [TableViewSection] = []
+    var reloadTable: (() -> Void)?
+    private(set) var section: [TableViewSection] = [] {
+        didSet {
+            reloadTable?()
+        }
+    }
     
     //MARK: - Initialization
     init() {
@@ -21,8 +28,9 @@ final class NotesListViewModel: NotesListViewModelProtocol {
     }
     
     // MARK: - Private methods
-    private func getNotes() {
+    func getNotes() {
         let notes = NotePersistent.fetchAll()
+        section = []
         print(notes)
         let groupedObjects = notes.reduce(info: [Date : [Note]]()) { result, note in
             let date = Calendar.current.startOfDay(for: note.date)
@@ -38,8 +46,8 @@ final class NotesListViewModel: NotesListViewModelProtocol {
     }
     
     private func getMocks() {
-        let section = TableViewSection(title: "22 Apr 2024", items: [Note(title: "First title note", date: Date(), description: "First note description", imageUrl: "4563"),
-                                                                    Note(title: "Second title note", date: Date(), description: "Second note description", imageUrl: "ddd")])
+        let section = TableViewSection(title: "22 Apr 2024", items: [Note(title: "First title note", date: Date(), description: "First note description", imageUrl: URL(string: "")),
+                                                                     Note(title: "Second title note", date: Date(), description: "Second note description", imageUrl: URL(string: ""))])
         self.section = [section]
     }
 }

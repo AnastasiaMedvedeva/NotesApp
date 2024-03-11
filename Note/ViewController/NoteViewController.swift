@@ -13,7 +13,6 @@ final class NoteViewController: UIViewController {
     private let attachmentView: UIImageView = {
         let view = UIImageView()
         view.layer.cornerRadius = 10
-        view.image = UIImage(named: "mockImage")
         view.layer.masksToBounds = true
         view.contentMode = .scaleAspectFill
         return view
@@ -28,6 +27,7 @@ final class NoteViewController: UIViewController {
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        configure()
         setupUI()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -49,7 +49,8 @@ final class NoteViewController: UIViewController {
     }
     @objc
     private func saveAction() {
-        
+        viewModel?.save(with: textView.text)
+        navigationController?.popViewController(animated: true)
     }
     private func setupUI() {
         view.backgroundColor = .white
