@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import UIKit
 
 protocol NoteViewModelProtocol {
     var text: String { get }
     func delete()
-    func save(with text: String)
+    func save(with text: String,and image: UIImage?)
 }
 
 final class NoteViewModel: NoteViewModelProtocol {
@@ -24,7 +25,9 @@ final class NoteViewModel: NoteViewModelProtocol {
         self.note = note
     }
     // MARK: - Methods
-    func save(with text: String) {
+    func save(with text: String,and image: UIImage?)
+    if let image = image {
+        FileManagerPersistent.save(image, with:)
         let date = note?.date ?? Date()
         let (title, description) = createTitleAndDescription(from: text)
         let note = Note(title: title, date: date, description: description ?? "", imageUrl: nil)

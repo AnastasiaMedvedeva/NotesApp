@@ -21,7 +21,6 @@ final class NotesListViewModel: NotesListViewModelProtocol {
             reloadTable?()
         }
     }
-    
     //MARK: - Initialization
     init() {
         getNotes()
