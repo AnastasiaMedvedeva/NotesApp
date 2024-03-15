@@ -43,7 +43,11 @@ final class ImageNoteTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    // MARK: - Methods
+    func set(note: Note,image: UIImage) {
+        titleLabel.text = note.title
+        attachmentView.image = image
+    }
     // MARK: - Private methods
     private func setupUI() {
         addSubview(containerView)
@@ -69,12 +73,5 @@ final class ImageNoteTableViewCell: UITableViewCell {
             make.leading.trailing.bottom.equalToSuperview().inset(10)
         }
     }
-    // MARK: - Methods
-    func set(note: Note) {
-        titleLabel.text = note.title
-        
-//        guard let imageData = note.image,
-//              let image = UIImage(data: imageData) else { return }
-//        attachmentView.image = image
-    }
+    
 }

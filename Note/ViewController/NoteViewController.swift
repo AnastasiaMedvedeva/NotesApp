@@ -24,6 +24,11 @@ final class NoteViewController: UIViewController, UINavigationControllerDelegate
         view.layer.borderColor = UIColor.lightGray.cgColor
         return view
     }()
+    // MARK: - Properties
+    var viewModel: NoteViewModelProtocol?
+    // MARK: - Private properties
+    private let imageHeight = 200
+    private var imageName: String?
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,10 +40,6 @@ final class NoteViewController: UIViewController, UINavigationControllerDelegate
         navigationController?.navigationBar.prefersLargeTitles = false
     }
     
-    // MARK: - Properties
-    var viewModel: NoteViewModelProtocol?
-    // MARK: - Private properties
-    private let imageHeight = 200
     // MARK: - Private methods
     @objc
     private func hideKeyboard() {
@@ -50,7 +51,7 @@ final class NoteViewController: UIViewController, UINavigationControllerDelegate
     }
     @objc
     private func saveAction() {
-        viewModel?.save(with: textView.text, and: attachmentView.image)
+        viewModel?.save(with: textView.text, and: attachmentView.image, imageName: imageName)
         navigationController?.popViewController(animated: true)
     }
     @objc
@@ -97,9 +98,7 @@ final class NoteViewController: UIViewController, UINavigationControllerDelegate
         }
         private func configure() {
             textView.text = viewModel?.text
-            //        guard let imageData = note.image,
-            //              let image = UIImage(data: imageData) else { return }
-            //        attachmentView.image = image
+            attachmentView.image = viewModel?.image
         }
         // MARK: - Methods
     
