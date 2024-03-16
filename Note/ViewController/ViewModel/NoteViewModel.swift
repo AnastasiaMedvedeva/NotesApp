@@ -44,7 +44,6 @@ final class NoteViewModel: NoteViewModelProtocol {
             let note = Note(title: title, date: date, description: description ?? "", imageUrl: url)
             NotePersistent.save(note)
         }
-    }
     func delete() {
         guard let note = note else { return }
         if let url = note.imageURL {
@@ -61,3 +60,4 @@ final class NoteViewModel: NoteViewModelProtocol {
             return (title, description)
     }
 }
+

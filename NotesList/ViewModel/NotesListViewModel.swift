@@ -29,7 +29,7 @@ final class NotesListViewModel: NotesListViewModelProtocol {
     }
     // MARK: - Methods
     func getImage(for note: Note) -> UIImage? {
-        FileManagerPersistent.read(from: note.imageURL)
+        FileManagerPersistent.read(from: url)
     }
     // MARK: - Private methods
     func getNotes() {
