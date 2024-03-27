@@ -18,7 +18,7 @@ class NotesListViewController: UITableViewController {
         setupToolBar()
         registerObserver()
         viewModel?.reloadTable = { [weak self] in
-            self?.tableView.reloadTable()
+            self?.tableView.reloadData()
         }
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -40,7 +40,7 @@ class NotesListViewController: UITableViewController {
     @objc
     private func addAction() {
         let noteViewController = NoteViewController()
-        let viewModel = NoteViewModel(note: note)
+        let viewModel = NoteViewModel(note: nil)
         noteViewController.viewModel = viewModel
         navigationController?.pushViewController(noteViewController, animated: true)
     }
@@ -67,10 +67,10 @@ extension NotesListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let note = viewModel?.section[indexPath.section].items[indexPath.row] as? Note else { return UITableViewCell() }
         
-        if let imageUrl = note.imageURL,
+        if let imageUrl = note.imageUrl,
            let cell = tableView.dequeueReusableCell(withIdentifier: "ImageNoteTableViewCell", for: indexPath) as? ImageNoteTableViewCell,
            let image = viewModel?.getImage(for: imageUrl) {
-            cell.set(note: note, image: image)
+            cell.set(note: note,image: image)
             return cell
         } else if let cell = tableView.dequeueReusableCell(withIdentifier:"SimpleNoteTableViewCell", for: indexPath) as? SimpleNoteTableViewCell {
             cell.set(note: note)
@@ -86,10 +86,10 @@ extension NotesListViewController {
 // MARK: - UITableViewDelegate
 extension NotesListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let note = viewModel?.section[indexPath.section].items[indexPath.row] as? Note else { return }
         let noteViewController = NoteViewController()
         let viewModel = NoteViewModel(note: note)
-        navigationController?.pushViewController(noteViewController, animated: true)
-        guard let note = viewModel?.section[indexPath.section].items[indexPath.row] as? Note else { return }
         noteViewController.viewModel = viewModel
+        navigationController?.pushViewController(noteViewController, animated: true)
     }
 }

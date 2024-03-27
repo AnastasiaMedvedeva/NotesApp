@@ -12,7 +12,7 @@ protocol NotesListViewModelProtocol {
     var section: [TableViewSection] { get }
     func getNotes()
     var reloadTable: (() -> Void)? { get set }
-    func getImage(for note: Note) -> UIImage?
+    func getImage(for url: URL) -> UIImage?
 }
 
 final class NotesListViewModel: NotesListViewModelProtocol {
@@ -28,17 +28,18 @@ final class NotesListViewModel: NotesListViewModelProtocol {
         getNotes()
     }
     // MARK: - Methods
-    func getImage(for note: Note) -> UIImage? {
-        FileManagerPersistent.read(from: url)
-    }
+//    func getImage(for url: URL) -> UIImage? {
+//        FileManagerPersistent.read(from: url)
+//    }
     // MARK: - Private methods
     func getNotes() {
         let notes = NotePersistent.fetchAll()
         section = []
-        print(notes)
+      
         let groupedObjects = notes.reduce(info: [Date : [Note]]()) { result, note in
             let date = Calendar.current.startOfDay(for: note.date)
             result[date, default: []].append(note)
+        }
             let keys = groupedObjects.keys
             keys.forEach { key in
                 let dateFormatter = DateFormatter()
@@ -47,7 +48,11 @@ final class NotesListViewModel: NotesListViewModelProtocol {
                 section.append(TableViewSection(title: stringDate, items: groupedObjects[key] ?? []))
             }
         }
+    
+    func getImage(for url: URL) -> UIImage? {
+        FileManagerPersistent.read(from: url)
     }
+    
     private func getMocks() {
         let section = TableViewSection(title: "22 Apr 2024", items: [Note(title: "First title note", date: Date(), description: "First note description", imageUrl: URL(string: "")),
                                                                      Note(title: "Second title note", date: Date(), description: "Second note description", imageUrl: URL(string: ""))])

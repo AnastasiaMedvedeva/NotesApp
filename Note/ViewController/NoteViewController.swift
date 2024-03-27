@@ -108,6 +108,7 @@ extension NoteViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let selectedImage = info[.originalImage] as? UIImage,
                 let url = info[.imageURL] as? URL else { return }
+        imageName = url.lastPathComponent
         attachmentView.image = selectedImage
         updateImageHeight()
         dismiss(animated: true)

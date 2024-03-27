@@ -17,13 +17,13 @@ protocol NoteViewModelProtocol {
 }
 
 final class NoteViewModel: NoteViewModelProtocol {
-    let note: Note?
+    var note: Note?
     var text: String {
         let text = ((note?.title ?? "") + "\n\n" + (note?.description?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "") )
         return text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     var image: UIImage? {
-        guard let url = note?.imageURL else { return nil }
+        guard let url = note?.imageUrl else { return nil }
         return FileManagerPersistent.read(from: url)
     }
     
@@ -46,7 +46,7 @@ final class NoteViewModel: NoteViewModelProtocol {
         }
     func delete() {
         guard let note = note else { return }
-        if let url = note.imageURL {
+        if let url = note.imageUrl {
             FileManagerPersistent.delete(from: url)
         }
         NotePersistent.delete(note)
